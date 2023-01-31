@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-screen bg-neutral-800 pt-28">
-        <div className="m-auto flex h-[36rem] w-96 flex-col justify-around rounded-2xl border bg-neutral-200">
+        <div className="m-auto flex h-[36rem] w-[29rem] flex-col justify-around rounded-2xl bg-neutral-200 p-8">
           <Output />
           <BaseControls />
         </div>

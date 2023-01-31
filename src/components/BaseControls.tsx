@@ -1,4 +1,12 @@
+import ControlInput from "./ControlInput";
+import NumInput from "./NumInput";
+
 const BaseControls: React.FC = () => {
-  return <div className="h-3/6 w-full  bg-neutral-400"></div>;
+  return (
+    <div className="flex h-3/6 w-full gap-[2rem] border border-stone-900">
+      <NumInput />
+      <ControlInput />
+    </div>
+  );
 };
 export default BaseControls;
