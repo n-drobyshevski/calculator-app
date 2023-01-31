@@ -3,7 +3,7 @@ import NumInput from "./NumInput";
 
 const BaseControls: React.FC = () => {
   return (
-    <div className="flex h-3/6 w-full gap-[2rem] border border-stone-900">
+    <div className="flex h-3/6 w-full gap-[2rem] border">
       <NumInput />
       <ControlInput />
     </div>
