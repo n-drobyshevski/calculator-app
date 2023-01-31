@@ -7,7 +7,7 @@ const Output: React.FC<OutputProps> = ({ output }) => {
       <input
         className="w-full appearance-none bg-transparent font-mono focus:outline-none"
         type="text"
-        value={"output"}
+        value={output}
       />
     </div>
   );

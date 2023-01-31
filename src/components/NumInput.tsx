@@ -1,16 +1,30 @@
 import Button from "./Button";
 
-const NumInput: React.FC = () => {
+interface NumInputProps {
+  onClick: (char: string) => void;
+}
+const NumInput: React.FC<NumInputProps> = ({ onClick }) => {
+  const onClickHandler = (char: string) => {
+    onClick(char);
+  };
   return (
     <div className="flex w-56 flex-row-reverse flex-wrap justify-between border ">
       {Array.from({ length: 9 }, (_, index) => {
-        return <Button key={index}>{9 - index}</Button>;
+        return (
+          <Button name={String(9 - index)} onClick={onClickHandler} key={index}>
+            {9 - index}
+          </Button>
+        );
       })}
-      <Button>
-        x10<sup>x</sup>
+      <Button name="ans" onClick={onClickHandler}>
+        Ans
       </Button>
-      <Button>.</Button>
-      <Button>0</Button>
+      <Button name="." onClick={onClickHandler}>
+        .
+      </Button>
+      <Button name="0" onClick={onClickHandler}>
+        0
+      </Button>
     </div>
   );
 };
