@@ -5,14 +5,19 @@ import BaseControls from "../components/BaseControls";
 import { useState } from "react";
 
 const Home: NextPage = () => {
-  const [output, setOutput] = useState<string>("");
+  const [output, setOutput] = useState<string[]>([""]);
 
   const outputUpdateHandler = (newChar: string) => {
     setOutput((currOutput) => {
-      return currOutput + newChar;
+      return currOutput.concat([newChar]);
     });
   };
 
+  const onDeleteHandler = () => {
+    setOutput((currOutput) => {
+      return currOutput.slice(0, -1);
+    });
+  };
   return (
     <>
       <Head>
@@ -23,7 +28,10 @@ const Home: NextPage = () => {
       <main className="h-screen bg-neutral-800 pt-28">
         <div className="m-auto flex h-[36rem] w-[29rem] flex-col justify-between rounded-2xl bg-neutral-200 p-8">
           <Output output={output} />
-          <BaseControls onInput={outputUpdateHandler} />
+          <BaseControls
+            onDelete={onDeleteHandler}
+            onInput={outputUpdateHandler}
+          />
         </div>
       </main>
     </>

@@ -1,8 +1,10 @@
 import Button from "./Button";
 interface ControlInputProps {
   onClick: (char: string) => void;
+
+  onDelete: () => void;
 }
-const ControlInput: React.FC<ControlInputProps> = ({ onClick }) => {
+const ControlInput: React.FC<ControlInputProps> = ({ onClick, onDelete }) => {
   const onClickHandler = (char: string) => {
     onClick(char);
   };
@@ -29,7 +31,7 @@ const ControlInput: React.FC<ControlInputProps> = ({ onClick }) => {
       <Button name="exe" onClick={onClickHandler}>
         EXE
       </Button>
-      <Button name="del" onClick={onClickHandler}>
+      <Button name="del" onClick={onDelete}>
         DEL
       </Button>
     </div>

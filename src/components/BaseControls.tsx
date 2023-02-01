@@ -3,15 +3,13 @@ import NumInput from "./NumInput";
 
 interface BaseControlsProps {
   onInput: (char: string) => void;
+  onDelete: () => void;
 }
-const BaseControls: React.FC<BaseControlsProps> = ({ onInput }) => {
-  const inputHandler = (char: string) => {
-    onInput(char);
-  };
+const BaseControls: React.FC<BaseControlsProps> = ({ onInput, onDelete }) => {
   return (
     <div className="flex h-3/6 w-full gap-[2rem] border">
-      <NumInput onClick={inputHandler} />
-      <ControlInput onClick={inputHandler} />
+      <NumInput onClick={onInput} />
+      <ControlInput onDelete={onDelete} onClick={onInput} />
     </div>
   );
 };
