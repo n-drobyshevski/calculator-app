@@ -3,6 +3,7 @@ import Head from "next/head";
 import Output from "../components/Output";
 import BaseControls from "../components/BaseControls";
 import { useState } from "react";
+import NavControls from "../components/NavControls";
 
 const Home: NextPage = () => {
   const [output, setOutput] = useState<string[]>([""]);
@@ -28,6 +29,7 @@ const Home: NextPage = () => {
       <main className="h-screen bg-neutral-800 pt-28">
         <div className="m-auto flex h-[36rem] w-[29rem] flex-col justify-between rounded-2xl bg-neutral-200 p-8">
           <Output output={output} />
+          <NavControls />
           <BaseControls
             onDelete={onDeleteHandler}
             onInput={outputUpdateHandler}
