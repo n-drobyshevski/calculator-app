@@ -1,15 +1,19 @@
 import Button from "./Button";
 
-const NavControls: React.FC = () => {
-  const navigationHandler = () => {
-    return;
-  };
+interface NavControlsProps {
+  onLeftClick: () => void;
+  onRightClick: () => void;
+}
+const NavControls: React.FC<NavControlsProps> = ({
+  onLeftClick,
+  onRightClick,
+}) => {
   return (
     <div className="flex w-full justify-start gap-2">
-      <Button onClick={navigationHandler} styleVariant="small" name="left">
+      <Button onClick={onLeftClick} styleVariant="small" name="left">
         {"<"}
       </Button>
-      <Button onClick={navigationHandler} styleVariant="small" name="right">
+      <Button onClick={onRightClick} styleVariant="small" name="right">
         {">"}
       </Button>
     </div>
