@@ -5,6 +5,8 @@ import BaseControls from "../components/BaseControls";
 import { useEffect, useState } from "react";
 import NavControls from "../components/NavControls";
 
+import calculate from "../api/eval";
+
 const Home: NextPage = () => {
   const [output, setOutput] = useState<{ before: string[]; after: string[] }>({
     before: [],
@@ -59,11 +61,16 @@ const Home: NextPage = () => {
     }
   };
 
+  const onExecuteHandler = () => {
+    console.log("calculate");
+    const expression: string = output.before.join("") + output.after.join();
+    const result = calculate(expression);
+    setOutput({ before: String(result).split(""), after: [] });
+  };
   return (
     <>
       <Head>
         <title>Calculator</title>
-        <meta name="description" content="calculator app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-screen bg-neutral-800 pt-28">
@@ -74,6 +81,7 @@ const Home: NextPage = () => {
             onRightClick={moveCursorRight}
           />
           <BaseControls
+            onExecute={onExecuteHandler}
             onDelete={onDeleteHandler}
             onInput={outputUpdateHandler}
           />
