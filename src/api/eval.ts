@@ -2,7 +2,11 @@ const calculate = (input: string): number => {
   console.log("in >>", input);
 
   let res = 0;
-  const operatorIndex: number = input.search(/[+-]/g);
+  const operatorIndex: number =
+    input.search(/[x\/]/g) > -1
+      ? input.search(/[x\/]/g)
+      : input.search(/[+-]/g);
+
   console.log(operatorIndex);
   console.log(input[operatorIndex]);
   const operator: string | undefined = input[operatorIndex];
@@ -10,10 +14,19 @@ const calculate = (input: string): number => {
     console.log("in if");
     const operand1: string = input.slice(0, operatorIndex);
     const operand2: string = input.slice(operatorIndex + 1);
-    if (operator === "+") {
-      res = calculate(operand1) + calculate(operand2);
-    } else if (operator === "-") {
-      res = calculate(operand1) - calculate(operand2);
+    switch (operator) {
+      case "x":
+        res = calculate(operand1) * calculate(operand2);
+        break;
+      case "/":
+        res = calculate(operand1) / calculate(operand2);
+        break;
+      case "+":
+        res = calculate(operand1) + calculate(operand2);
+        break;
+      case "-":
+        res = calculate(operand1) - calculate(operand2);
+        break;
     }
   } else {
     res = parseInt(input);
