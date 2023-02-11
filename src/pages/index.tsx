@@ -65,7 +65,7 @@ const Home: NextPage = () => {
     console.log("calculate");
     const expression: string = output.before.join("") + output.after.join();
     const result = calculate(expression);
-    // setOutput({ before: String(result).split(""), after: [] });
+    setOutput({ before: String(result).split(""), after: [] });
   };
   return (
     <>

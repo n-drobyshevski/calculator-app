@@ -21,6 +21,19 @@ input ==>
       ==> return number
   }
 */
+const fillOmmitedMultiplications = (input: string): string => {
+  while (true) {
+    const multiplicationIndex: number = input.search(/[1-9][(]/g);
+    if (multiplicationIndex === -1) {
+      break;
+    }
+    input = `${input.slice(0, multiplicationIndex + 1)}x${input.slice(
+      multiplicationIndex + 1
+    )}`;
+    console.log("replased_input", input);
+  }
+  return input;
+};
 const baseOperations = (
   operand1: number,
   operand2: number,
@@ -46,8 +59,10 @@ const baseOperations = (
 };
 
 const calculate = (input: string): number => {
+  console.clear();
   console.groupCollapsed("calculate()");
   console.log("in >>", input);
+  input = fillOmmitedMultiplications(input);
   let current_input = input;
   while (true) {
     let operatorIndex: number;
