@@ -89,9 +89,9 @@ const calculate = (input: string): number => {
     console.log("operatorIndex", operatorIndex);
 
     if (typeof operator === "undefined") {
-      const res = parseInt(current_input);
+      const res = parseFloat(current_input).toFixed(3);
       console.log("out << ", res);
-      return parseInt(current_input);
+      return parseFloat(res);
     } else {
       current_input = calculateExpression(
         current_input,
