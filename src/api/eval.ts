@@ -21,7 +21,7 @@ input ==>
       ==> return number
   }
 */
-const fillOmmitedMultiplications = (input: string): string => {
+const fillOmittedMultiplications = (input: string): string => {
   while (true) {
     const multiplicationIndex: number = input.search(/[1-9][(]/g);
     if (multiplicationIndex === -1) {
@@ -57,24 +57,36 @@ const baseOperations = (
   }
   return res;
 };
+const getOperator = (
+  input: string
+): { operator: string | undefined; operatorIndex: number } => {
+  let operatorIndex: number;
+
+  if (input.search(/[(]/g) > -1) {
+    operatorIndex = input.search(/[(]/g);
+  } else if (input.search(/[/x]/g) > -1) {
+    operatorIndex = input.search(/[/x]/g);
+  } else {
+    // ignore signed value operator (if its not after a digit or not after a ")" )
+    operatorIndex = input.search(/(?<=\d|\))[+-]/g);
+  }
+
+  const operator: string | undefined = input[operatorIndex];
+  return { operator: operator, operatorIndex: operatorIndex };
+};
 
 const calculate = (input: string): number => {
-  console.clear();
   console.groupCollapsed("calculate()");
   console.log("in >>", input);
-  input = fillOmmitedMultiplications(input);
+  // if (input.length === 0) {
+  //   throw new Error("calculate function empty string argument");
+  // }
+  input = fillOmittedMultiplications(input);
   let current_input = input;
-  while (true) {
-    let operatorIndex: number;
-    if (current_input.search(/[(]/g) > -1) {
-      operatorIndex = current_input.search(/[(]/g);
-    } else if (current_input.search(/[/x]/g) > -1)
-      operatorIndex = current_input.search(/[/x]/g);
-    else {
-      operatorIndex = current_input.search(/[+-]/g);
-    }
 
-    const operator: string | undefined = current_input[operatorIndex];
+  while (true) {
+    const { operator, operatorIndex } = getOperator(current_input);
+    console.log("operatorIndex", operatorIndex);
 
     if (typeof operator === "undefined") {
       const res = parseInt(current_input);
@@ -91,14 +103,81 @@ const calculate = (input: string): number => {
   }
 };
 
+const getFirstOperand = (
+  input: string,
+  operatorIndex: number
+): { operand: number; absoluteStartIndex: number } => {
+  console.info("get first operand");
+
+  // get the part of input between main operator and start boundary operator
+  const before: string[] = input.slice(0, operatorIndex).split("");
+  console.info("before", before);
+  const relativeStartIndex: number = before
+    .reverse()
+    .join("")
+    .search(/[/x+-]/g); // find start boundary index
+
+  // include sign in operand if signed
+  const isSignedValue =
+    before[relativeStartIndex] === "+" || before[relativeStartIndex] === "-";
+  console.log("relativeStartIndex", relativeStartIndex);
+  let absoluteStartIndex = 0;
+  if (relativeStartIndex === -1) {
+    absoluteStartIndex = operatorIndex - before.length;
+  } else if (
+    (isSignedValue && before[relativeStartIndex + 1] === "(") ||
+    (isSignedValue && relativeStartIndex === before.length - 1)
+  ) {
+    absoluteStartIndex = operatorIndex - before.length;
+  }
+  console.log("absoluteStartIndex", absoluteStartIndex);
+
+  let operand: string;
+  if (absoluteStartIndex + 1 === operatorIndex) {
+    operand = String(input[absoluteStartIndex]);
+  } else {
+    operand = input.slice(absoluteStartIndex, operatorIndex);
+  }
+  const isNegative: boolean = input[absoluteStartIndex] === "-";
+  console.log("start index modified", absoluteStartIndex);
+  console.log("isNegative", isNegative);
+  console.log("operand1", operand);
+  return {
+    operand: calculate(operand),
+    absoluteStartIndex: absoluteStartIndex,
+  };
+};
+
+const getSecondOperand = (
+  input: string,
+  operatorIndex: number
+): { operand: number; endIndex: number } => {
+  console.info("getSecondOperand");
+  // end index relatively second operand
+  const relativeEndIndex: number = input
+    .slice(operatorIndex + 1)
+    .search(/[/x+-]/g);
+  // end index relatively base input
+  const operand2: string =
+    relativeEndIndex !== operatorIndex + 1 && relativeEndIndex !== -1
+      ? input.slice(operatorIndex + 1, relativeEndIndex)
+      : input.slice(operatorIndex + 1);
+  const absoluteEndIndex =
+    relativeEndIndex === -1
+      ? operatorIndex + operand2.length
+      : operatorIndex + relativeEndIndex;
+  console.log("aboluteEndIndex", absoluteEndIndex);
+  console.log("operand2", operand2);
+  return { operand: calculate(operand2), endIndex: absoluteEndIndex + 1 };
+};
+
 const calculateExpression = (
   input: string,
   operatorIndex: number,
   operator: string
 ): string => {
-  console.groupCollapsed("calculate expression");
-
   if (operator === "(") {
+    console.groupCollapsed("calculate expression");
     let endIndex = input.search(/[)]/g);
     const innerParenthesis: string = input.slice(operatorIndex, endIndex);
 
@@ -130,46 +209,30 @@ const calculateExpression = (
     console.groupEnd();
     return replacedInput;
   } else {
-    // get first operand
-    let before: string[] | string = input.slice(0, operatorIndex).split("");
-    const startIndex: number = before
-      .reverse()
-      .join("")
-      .search(/[/x+-]/g); // find last + or - sign index
-    console.table({ before: before, "start index": startIndex });
-    before = before.reverse().join("");
-    let operand1: string | number = before;
-
-    if (startIndex >= 0) {
-      console.log("entered in if ");
-      operand1 = before.slice(-startIndex);
-    }
-    //
+    console.groupCollapsed("calculate expression");
+    console.log("operator index", operatorIndex);
+    const { operand: operand1, absoluteStartIndex: startIndex } =
+      getFirstOperand(input, operatorIndex);
+    const { operand: operand2, endIndex } = getSecondOperand(
+      input,
+      operatorIndex
+    );
     // get second operand
-    const after: string = input.slice(operatorIndex + 1);
-    const endIndex: number = after.search(/[/x+-]/g);
-    console.table({ "end index": endIndex, after: after });
-    let operand2: string | number = after;
-    if (endIndex >= 0) {
-      operand2 = after.slice(0, endIndex);
-    }
+    console.info(input);
     console.table({
       operand1: operand1,
       operand2: operand2,
       operator: operator,
     });
 
-    // calculate and replace
-    operand1 = calculate(operand1);
-    operand2 = calculate(operand2);
-
     const res = baseOperations(operand1, operand2, operator);
     console.log("==================== replaced input ========================");
-    const replacedInput = `${
-      startIndex === -1 ? 0 : before.slice(0, -startIndex)
-    }${res}${endIndex === -1 ? "" : input.slice(operatorIndex + endIndex + 1)}`;
+    const replacedInput = `${input.slice(0, startIndex)}${res}${input.slice(
+      endIndex
+    )}`;
     console.log(input, " == to ==>", replacedInput);
     console.groupEnd();
+    // return;
     return replacedInput;
   }
 };
