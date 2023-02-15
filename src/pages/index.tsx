@@ -12,6 +12,7 @@ const Home: NextPage = () => {
     before: [],
     after: [],
   });
+  const [prevResult, setPrevResult] = useState<string>("");
 
   useEffect(() => {
     console.log(output);
@@ -30,6 +31,15 @@ const Home: NextPage = () => {
     setOutput((currOutput) => {
       return {
         before: currOutput.before.slice(0, -1),
+        after: currOutput.after,
+      };
+    });
+  };
+
+  const onGetAnswerHandler = () => {
+    setOutput((currOutput) => {
+      return {
+        before: [...currOutput.before, prevResult],
         after: currOutput.after,
       };
     });
@@ -65,6 +75,7 @@ const Home: NextPage = () => {
     console.log("calculate");
     const expression: string = output.before.join("") + output.after.join();
     const result = calculate(expression);
+    setPrevResult(String(result));
     setOutput({ before: String(result).split(""), after: [] });
   };
   return (
@@ -82,6 +93,7 @@ const Home: NextPage = () => {
           />
           <BaseControls
             onExecute={onExecuteHandler}
+            onGetAnswer={onGetAnswerHandler}
             onDelete={onDeleteHandler}
             onInput={outputUpdateHandler}
           />

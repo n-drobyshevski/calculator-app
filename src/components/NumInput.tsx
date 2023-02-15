@@ -2,8 +2,9 @@ import Button from "./Button";
 
 interface NumInputProps {
   onClick: (char: string) => void;
+  onAnswerClick: () => void;
 }
-const NumInput: React.FC<NumInputProps> = ({ onClick }) => {
+const NumInput: React.FC<NumInputProps> = ({ onClick, onAnswerClick }) => {
   const onClickHandler = (char: string) => {
     onClick(char);
   };
@@ -16,7 +17,7 @@ const NumInput: React.FC<NumInputProps> = ({ onClick }) => {
           </Button>
         );
       })}
-      <Button name="ans" onClick={onClickHandler}>
+      <Button name="ans" onClick={onAnswerClick}>
         Ans
       </Button>
       <Button name="." onClick={onClickHandler}>
