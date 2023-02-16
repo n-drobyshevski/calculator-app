@@ -9,11 +9,11 @@ const NumInput: React.FC<NumInputProps> = ({ onClick, onAnswerClick }) => {
     onClick(char);
   };
   return (
-    <div className="flex w-56 flex-row-reverse flex-wrap justify-between border ">
-      {Array.from({ length: 9 }, (_, index) => {
+    <div className="grid max-w-[14rem] grid-flow-row grid-cols-3 gap-x-4 gap-y-6 border ">
+      {["7", "8", "9", "4", "5", "6", "1", "2", "3"].map((number) => {
         return (
-          <Button name={String(9 - index)} onClick={onClickHandler} key={index}>
-            {9 - index}
+          <Button name={number} onClick={onClickHandler} key={number}>
+            {number}
           </Button>
         );
       })}

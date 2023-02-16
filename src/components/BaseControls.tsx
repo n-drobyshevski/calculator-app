@@ -14,7 +14,7 @@ const BaseControls: React.FC<BaseControlsProps> = ({
   onGetAnswer,
 }) => {
   return (
-    <div className="flex h-3/6 w-full gap-[2rem] border">
+    <div className="flex h-fit w-full gap-[1rem] border">
       <NumInput onClick={onInput} onAnswerClick={onGetAnswer} />
       <ControlInput
         onDelete={onDelete}

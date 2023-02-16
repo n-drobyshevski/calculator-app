@@ -13,7 +13,7 @@ const ControlInput: React.FC<ControlInputProps> = ({
     onClick(char);
   };
   return (
-    <div className="flex w-[9rem] flex-wrap justify-between border ">
+    <div className="grid grid-flow-row grid-cols-2 gap-x-4 gap-y-6 border ">
       <Button name="(" onClick={onClickHandler}>
         (
       </Button>

@@ -13,14 +13,14 @@ const Button: React.FC<ButtonProps> = ({
   const onClickHandler = () => {
     onClick(name);
   };
-  const standartVariant = "w-16 h-8";
+  const standartVariant = "w-12 h-8";
   const smallVariant = "w-10 h-10";
   return (
     <button
       type="button"
       onClick={onClickHandler}
-      className={`rounded-full border border-neutral-300 shadow-md shadow-neutral-400 
-      hover:shadow-md focus:outline-none active:shadow-none
+      className={`rounded-full border border-neutral-300 shadow-sm shadow-neutral-400 
+      hover:bg-neutral-300/50  focus:outline-none active:shadow-none
       ${
         styleVariant == "small" || typeof styleVariant == undefined
           ? smallVariant
