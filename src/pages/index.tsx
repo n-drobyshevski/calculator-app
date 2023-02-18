@@ -13,6 +13,9 @@ const Home: NextPage = () => {
     after: [],
   });
   const [prevResult, setPrevResult] = useState<string>("");
+  const [history, setHistory] = useState<
+    { expression: string; result: string }[]
+  >([]);
 
   useEffect(() => {
     console.log(output);
@@ -77,6 +80,7 @@ const Home: NextPage = () => {
     const result = calculate(expression);
     setPrevResult(String(result));
     setOutput({ before: String(result).split(""), after: [] });
+    setHistory([...history, { expression: expression, result: `${result}` }]);
   };
   return (
     <>
@@ -86,7 +90,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="h-screen bg-neutral-800 pt-28">
         <div className="m-auto flex h-[36rem] w-fit flex-col justify-between rounded-2xl bg-neutral-200 p-8">
-          <Output output={output} />
+          <Output output={output} history={history} />
           <NavControls
             onLeftClick={moveCursorLeft}
             onRightClick={moveCursorRight}
