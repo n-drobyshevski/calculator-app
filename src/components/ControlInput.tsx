@@ -1,4 +1,6 @@
 import Button from "./Button";
+import { CgMathDivide, CgMathMinus, CgMathPlus } from "react-icons/cg";
+import { IoClose } from "react-icons/io5";
 interface ControlInputProps {
   onClick: (char: string) => void;
   onExecute: () => void;
@@ -20,17 +22,17 @@ const ControlInput: React.FC<ControlInputProps> = ({
       <Button name=")" onClick={onClickHandler}>
         )
       </Button>
-      <Button name="+" onClick={onClickHandler}>
-        +
-      </Button>
-      <Button name="-" onClick={onClickHandler}>
-        -
-      </Button>
       <Button name="x" onClick={onClickHandler}>
-        x
+        <IoClose />
       </Button>
       <Button name="/" onClick={onClickHandler}>
-        /
+        <CgMathDivide />
+      </Button>
+      <Button name="+" onClick={onClickHandler}>
+        <CgMathPlus />
+      </Button>
+      <Button name="-" onClick={onClickHandler}>
+        <CgMathMinus />
       </Button>
       <Button name="exe" onClick={onExecute}>
         EXE
