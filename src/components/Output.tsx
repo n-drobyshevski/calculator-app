@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import InputItem from "./history/InputItem";
 import HistoryList from "./history/HistoryList";
+import type { FocusedItemType } from "../pages";
 interface OutputProps {
   output: { before: string[]; after: string[] };
   history: { expression: string; result: string }[];
+  focusedItem: FocusedItemType;
 }
-const Output: React.FC<OutputProps> = ({ output, history }) => {
+const Output: React.FC<OutputProps> = ({ output, history, focusedItem }) => {
   const [strOutput, setStrOutput] = useState<{ before: string; after: string }>(
     { before: "", after: "" }
   );
@@ -18,8 +20,8 @@ const Output: React.FC<OutputProps> = ({ output, history }) => {
 
   return (
     <div className="flex h-40 w-full flex-col justify-end overflow-hidden rounded-xl border border-neutral-300 shadow-inner shadow-neutral-400">
-      <HistoryList history={history} />
-      <InputItem output={strOutput} />
+      <HistoryList history={history} focusedItem={focusedItem} />
+      <InputItem output={strOutput} focused={focusedItem.index === -1} />
     </div>
   );
 };

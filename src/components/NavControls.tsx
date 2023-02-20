@@ -7,13 +7,17 @@ import {
 interface NavControlsProps {
   onLeftClick: () => void;
   onRightClick: () => void;
+  onDownClick: () => void;
+  onUpClick: () => void;
 }
 const NavControls: React.FC<NavControlsProps> = ({
   onLeftClick,
   onRightClick,
+  onDownClick,
+  onUpClick,
 }) => {
   const commonStyleBorders =
-    "border border-neutral-300  p-1 rounded-xl shadow shadow-neutral-400 flex items-center bg-neutral-200 hover:bg-neutral-300/50";
+    "border border-neutral-300  p-1 rounded-xl shadow shadow-neutral-400 flex items-center bg-neutral-200 active:shadow-none hover:bg-neutral-300/50";
   const commonStyleButtons = "relative focus:outline-none";
   return (
     <div className="grid h-20 w-20 grid-cols-3 grid-rows-3 place-items-center gap-2">
@@ -29,7 +33,7 @@ const NavControls: React.FC<NavControlsProps> = ({
         </div>
       </button>
       <button
-        onClick={onRightClick}
+        onClick={onUpClick}
         type="button"
         className={`col-start-2 row-start-1 row-end-2 ${commonStyleButtons} justify-start
         border-b-0 `}
@@ -52,7 +56,7 @@ const NavControls: React.FC<NavControlsProps> = ({
         </div>
       </button>
       <button
-        onClick={onRightClick}
+        onClick={onDownClick}
         type="button"
         className={`col-start-2 col-end-2 ${commonStyleButtons}
         row-start-3 border-t-0`}
@@ -63,6 +67,7 @@ const NavControls: React.FC<NavControlsProps> = ({
           <BiDownArrow />
         </div>
       </button>
+
       <div className="z-10 col-start-2 col-end-2 row-start-2 row-end-2 h-[22px] w-[32px] bg-neutral-200"></div>
       <div className="z-10 col-start-2 col-end-2 row-start-2 row-end-2 h-[32px] w-[22px] bg-neutral-200"></div>
     </div>
