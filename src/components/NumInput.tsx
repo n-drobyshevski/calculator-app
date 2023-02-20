@@ -17,14 +17,14 @@ const NumInput: React.FC<NumInputProps> = ({ onClick, onAnswerClick }) => {
           </Button>
         );
       })}
-      <Button name="ans" onClick={onAnswerClick}>
-        Ans
+      <Button name="0" onClick={onClickHandler}>
+        0
       </Button>
       <Button name="." onClick={onClickHandler}>
         .
       </Button>
-      <Button name="0" onClick={onClickHandler}>
-        0
+      <Button name="ans" onClick={onAnswerClick}>
+        Ans
       </Button>
     </div>
   );

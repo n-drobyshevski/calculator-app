@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import Cursor from "./Cursor";
+import InputItem from "./history/InputItem";
+import HistoryList from "./history/HistoryList";
+import type { FocusedItemType } from "../pages";
 interface OutputProps {
   output: { before: string[]; after: string[] };
+  history: { expression: string; result: string }[];
+  focusedItem: FocusedItemType;
 }
-const Output: React.FC<OutputProps> = ({ output }) => {
+const Output: React.FC<OutputProps> = ({ output, history, focusedItem }) => {
   const [strOutput, setStrOutput] = useState<{ before: string; after: string }>(
     { before: "", after: "" }
   );
@@ -14,15 +18,10 @@ const Output: React.FC<OutputProps> = ({ output }) => {
     setStrOutput({ before: newOutputBefore, after: newOutputAfter });
   }, [output]);
 
-  const outputTextStyle =
-    "select-all bg-transparent font-mono tracking-widest text-lg";
   return (
-    <div className="flex h-40 w-full flex-col justify-center rounded-xl border bg-neutral-300 p-4 shadow-inner shadow-neutral-400">
-      <div className="flex items-center justify-start">
-        <p className={outputTextStyle}>{strOutput.before}</p>
-        <Cursor />
-        <p className={outputTextStyle}>{strOutput.after}</p>
-      </div>
+    <div className="flex h-40 w-full flex-col justify-end overflow-hidden rounded-xl border border-neutral-300 shadow-inner shadow-neutral-400">
+      <HistoryList history={history} focusedItem={focusedItem} />
+      <InputItem output={strOutput} focused={focusedItem.index === -1} />
     </div>
   );
 };
