@@ -19,8 +19,8 @@ const Button: React.FC<ButtonProps> = ({
     <button
       type="button"
       onClick={onClickHandler}
-      className={`rounded-full border border-neutral-300 shadow-sm shadow-neutral-400 
-      hover:bg-neutral-300/50  focus:outline-none active:shadow-none
+      className={`flex items-center justify-center rounded-full border border-neutral-300 shadow-sm shadow-neutral-400 
+      hover:bg-neutral-300/50 focus:outline-none active:shadow-none
       ${
         styleVariant == "small" || typeof styleVariant == undefined
           ? smallVariant
