@@ -158,17 +158,36 @@ const getSecondOperand = (
     .slice(operatorIndex + 1)
     .search(/[/x+-]/g);
   // end index relatively base input
-  const operand2: string =
-    relativeEndIndex !== operatorIndex + 1 && relativeEndIndex !== -1
-      ? input.slice(operatorIndex + 1, relativeEndIndex)
-      : input.slice(operatorIndex + 1);
+  console.log(input.slice(operatorIndex + 1));
+  console.log(relativeEndIndex, "relativeEndIndex");
+  console.log(operatorIndex, "operatorIndex");
+
+  let operand = "";
+  switch (relativeEndIndex) {
+    case -1:
+      console.log("case 1");
+      operand = input.slice(operatorIndex + 1);
+      break;
+    case 1:
+      const possible_operand = input[operatorIndex + 1];
+      console.log("case 2.1");
+      if (typeof possible_operand === "string") {
+        console.log("case 2.2");
+        operand = possible_operand;
+      }
+      break;
+    default:
+      console.log("case default");
+      operand = input.slice(operatorIndex + 1, relativeEndIndex);
+      break;
+  }
   const absoluteEndIndex =
     relativeEndIndex === -1
-      ? operatorIndex + operand2.length
+      ? operatorIndex + operand.length
       : operatorIndex + relativeEndIndex;
-  console.log("aboluteEndIndex", absoluteEndIndex);
-  console.log("operand2", operand2);
-  return { operand: calculate(operand2), endIndex: absoluteEndIndex + 1 };
+  console.log("operand-2", operand);
+  console.log("absoluteEndIndex", absoluteEndIndex);
+  return { operand: calculate(operand), endIndex: absoluteEndIndex + 1 };
 };
 
 const calculateExpression = (
