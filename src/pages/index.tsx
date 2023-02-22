@@ -13,15 +13,26 @@ export interface FocusedItemType {
   expression: boolean;
 }
 
+interface HistoryEntryType {
+  expression: string;
+  result: string;
+}
+interface HistoryType {
+  visible: HistoryEntryType[];
+  invisible: HistoryEntryType[];
+}
+
 const Home: NextPage = () => {
   const [output, setOutput] = useState<{ before: string[]; after: string[] }>({
     before: [],
     after: [],
   });
   const [prevResult, setPrevResult] = useState<string>("");
-  const [history, setHistory] = useState<
-    { expression: string; result: string }[]
-  >([]);
+  const [history, setHistory] = useState<HistoryType>({
+    visible: [],
+    invisible: [],
+  });
+
   const [focusedItem, setFocusedItem] = useState<FocusedItemType>({
     index: -1,
     result: false,
@@ -92,27 +103,82 @@ const Home: NextPage = () => {
 
   const moveUpHandler = () => {
     if (
-      history.length === 0 ||
-      typeof history[focusedItem.index + 1] === "undefined"
+      history.visible.length === 0 ||
+      typeof history.visible[focusedItem.index + 1] === "undefined"
     ) {
       return;
     } else {
-      setFocusedItem({
-        index: focusedItem.index + 1,
-        result: true,
-        expression: false,
-      });
+      // scroll simulation\
+      console.log("focus", history, focusedItem);
+      if (history.visible.length > 2 && focusedItem.index + 1 > 1) {
+        console.log("scroll up");
+        let invisible: HistoryEntryType[] = [];
+        if (
+          typeof history.invisible !== "undefined" &&
+          typeof history.visible[0] !== "undefined"
+        ) {
+          invisible = [...history.invisible, history.visible[0]];
+        }
+        setHistory({
+          visible: history.visible.slice(1),
+          invisible: invisible,
+        });
+      } else {
+        setFocusedItem({
+          index: focusedItem.index + 1,
+          result: true,
+          expression: false,
+        });
+      }
     }
   };
+
   const moveDownHandler = () => {
     if (focusedItem.index === -1) {
       return;
     } else {
-      setFocusedItem({
-        index: focusedItem.index - 1,
-        result: true,
-        expression: false,
-      });
+      // scroll simulation\
+      console.log("focus", history, focusedItem);
+
+      if (history.invisible.length > 0) {
+        console.log("scroll down");
+
+        //update visible part
+        let updatedVisible: HistoryEntryType[] = [];
+        const lastInvisible = history.invisible[history.invisible.length - 1];
+        if (typeof lastInvisible !== "undefined") {
+          updatedVisible = [lastInvisible, ...history.visible];
+        }
+
+        // updated Invisible part
+        let updatedInvisible: HistoryEntryType[] = [];
+        if (history.invisible.length === 1) {
+          updatedInvisible = [];
+        } else if (history.invisible.length > 1) {
+          updatedInvisible = history.invisible.slice(-1);
+        }
+
+        console.log("upatedVisible", updatedVisible);
+        console.log("upatedInvisible", updatedInvisible);
+        setHistory({
+          visible: updatedVisible,
+          invisible: updatedInvisible,
+        });
+
+        // set focus to result part
+        setFocusedItem({
+          index: focusedItem.index,
+          result: true,
+          expression: false,
+        });
+        
+      } else {
+        setFocusedItem({
+          index: focusedItem.index - 1,
+          result: true,
+          expression: false,
+        });
+      }
     }
   };
 
@@ -148,7 +214,13 @@ const Home: NextPage = () => {
     const result = calculate(expression);
     setPrevResult(String(result));
     setOutput({ before: String(result).split(""), after: [] });
-    setHistory([{ expression: expression, result: `${result}` }, ...history]);
+    setHistory({
+      visible: [
+        { expression: expression, result: `${result}` },
+        ...history.visible,
+      ],
+      invisible: history.invisible,
+    });
   };
   return (
     <>
@@ -158,7 +230,11 @@ const Home: NextPage = () => {
       </Head>
       <main className="h-screen bg-neutral-800 pt-28">
         <div className="m-auto flex h-[36rem] w-fit flex-col justify-between rounded-2xl bg-neutral-200 p-8">
-          <Output output={output} history={history} focusedItem={focusedItem} />
+          <Output
+            output={output}
+            history={history.visible}
+            focusedItem={focusedItem}
+          />
           <NavControls
             onLeftClick={moveLeftHandler}
             onUpClick={moveUpHandler}

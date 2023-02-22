@@ -76,7 +76,6 @@ const getOperator = (
 };
 
 const calculate = (input: string): number => {
-  console.groupCollapsed("calculate()");
   console.log("in >>", input);
   // if (input.length === 0) {
   //   throw new Error("calculate function empty string argument");
@@ -99,7 +98,6 @@ const calculate = (input: string): number => {
         operator
       );
     }
-    console.groupEnd();
   }
 };
 
@@ -196,7 +194,6 @@ const calculateExpression = (
   operator: string
 ): string => {
   if (operator === "(") {
-    console.groupCollapsed("calculate expression");
     let endIndex = input.search(/[)]/g);
     const innerParenthesis: string = input.slice(operatorIndex, endIndex);
 
@@ -225,10 +222,8 @@ const calculateExpression = (
     }`;
     console.log("replaced input", replacedInput);
 
-    console.groupEnd();
     return replacedInput;
   } else {
-    console.groupCollapsed("calculate expression");
     console.log("operator index", operatorIndex);
     const { operand: operand1, absoluteStartIndex: startIndex } =
       getFirstOperand(input, operatorIndex);
@@ -250,7 +245,6 @@ const calculateExpression = (
       endIndex
     )}`;
     console.log(input, " == to ==>", replacedInput);
-    console.groupEnd();
     // return;
     return replacedInput;
   }
