@@ -9,7 +9,7 @@ const NumInput: React.FC<NumInputProps> = ({ onClick, onAnswerClick }) => {
     onClick(char);
   };
   return (
-    <div className="grid max-w-[14rem] grid-flow-row grid-cols-3 gap-x-4 gap-y-6 border ">
+    <div className="grid max-w-[14rem] grid-flow-row grid-cols-3 gap-x-2 gap-y-5 border ">
       {["7", "8", "9", "4", "5", "6", "1", "2", "3"].map((number) => {
         return (
           <Button name={number} onClick={onClickHandler} key={number}>

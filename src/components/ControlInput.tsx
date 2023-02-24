@@ -15,7 +15,7 @@ const ControlInput: React.FC<ControlInputProps> = ({
     onClick(char);
   };
   return (
-    <div className="grid grid-flow-row grid-cols-2 gap-x-4 gap-y-6 border ">
+    <div className="grid grid-flow-row grid-cols-2 gap-x-2 gap-y-5 border ">
       <Button name="(" onClick={onClickHandler}>
         (
       </Button>

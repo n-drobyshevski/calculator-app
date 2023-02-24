@@ -19,7 +19,7 @@ const Output: React.FC<OutputProps> = ({ output, history, focusedItem }) => {
   }, [output]);
 
   return (
-    <div className="flex h-40 w-full flex-col justify-end overflow-hidden rounded-xl border border-neutral-300 shadow-inner shadow-neutral-400">
+    <div className="flex h-44 w-full flex-col justify-end overflow-hidden rounded-xl border border-neutral-300 shadow-inner shadow-neutral-400">
       <HistoryList history={history} focusedItem={focusedItem} />
       <InputItem output={strOutput} focused={focusedItem.index === -1} />
     </div>

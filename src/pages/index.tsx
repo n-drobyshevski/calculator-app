@@ -27,7 +27,9 @@ const Home: NextPage = () => {
     before: [],
     after: [],
   });
+
   const [prevResult, setPrevResult] = useState<string>("");
+
   const [history, setHistory] = useState<HistoryType>({
     visible: [],
     invisible: [],
@@ -171,7 +173,6 @@ const Home: NextPage = () => {
           result: true,
           expression: false,
         });
-        
       } else {
         setFocusedItem({
           index: focusedItem.index - 1,
@@ -208,6 +209,44 @@ const Home: NextPage = () => {
     }
   };
 
+  const onBackClickHandler = () => {
+    // reset history invisible to []
+    setHistory({
+      visible: [...history.invisible, ...history.visible],
+      invisible: [],
+    });
+
+    // move focus to input field
+    setFocusedItem({
+      index: -1,
+      result: false,
+      expression: false,
+    });
+
+    return;
+  };
+
+  const onOkClickHandler = () => {
+    // paste currently focused item to input field
+    if (focusedItem.index === -1) {
+      return;
+    }
+    const currentlyFocusedItem: HistoryEntryType | undefined =
+      history.visible[focusedItem.index];
+    let selected = "";
+    if (typeof currentlyFocusedItem !== "undefined") {
+      if (currentlyFocusedItem.result) {
+        selected = currentlyFocusedItem.result;
+      }
+      if (currentlyFocusedItem.expression) {
+        selected = currentlyFocusedItem.expression;
+      }
+    }
+    setOutput({ before: [...output.before, selected], after: output.after });
+    onBackClickHandler();
+    // reset history invisible to [] and move focus to input field (done by onBackClickHandler())
+    return;
+  };
   const onExecuteHandler = () => {
     console.log("calculate");
     const expression: string = output.before.join("") + output.after.join();
@@ -228,8 +267,8 @@ const Home: NextPage = () => {
         <title>Calculator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="h-screen bg-neutral-800 pt-28">
-        <div className="m-auto flex h-[36rem] w-fit flex-col justify-between rounded-2xl bg-neutral-200 p-8">
+      <main className="min-h-screen bg-neutral-800 pt-28">
+        <div className="m-auto flex h-[36rem] w-fit flex-col justify-between rounded-2xl bg-neutral-200 p-7">
           <Output
             output={output}
             history={history.visible}
@@ -240,6 +279,8 @@ const Home: NextPage = () => {
             onUpClick={moveUpHandler}
             onDownClick={moveDownHandler}
             onRightClick={moveRightHandler}
+            onBackClick={onBackClickHandler}
+            onOkClick={onOkClickHandler}
           />
           <BaseControls
             onExecute={onExecuteHandler}
