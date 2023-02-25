@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "../Button";
 import { CgMathDivide, CgMathMinus, CgMathPlus } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
 interface ControlInputProps {

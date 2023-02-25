@@ -23,11 +23,11 @@ const NavControls: React.FC<NavControlsProps> = ({
   onBackClick,
 }) => {
   const commonStyleBorders =
-    "border border-neutral-300 p-1 rounded-xl shadow shadow-neutral-400 flex items-center bg-neutral-200 active:shadow-none hover:bg-neutral-300/50";
+    "border border-neutral-300 p-1 rounded-xl shadow shadow-neutral-400 flex items-center bg-neutral-200 active:shadow-none md:hover:bg-neutral-300/50";
   const commonStyleButtons = "relative focus:outline-none";
 
   const roundButtonsStyle =
-    "rounded-full border border-neutral-300 shadow shadow=neutral-400 hover:bg-neutral-300/30 active:shadow-none focus:outline-none w-10 h-10 flex justify-center items-center";
+    "rounded-full border border-neutral-300 shadow shadow=neutral-400 md:hover:bg-neutral-300/30 active:shadow-none focus:outline-none w-10 h-10 flex justify-center items-center";
   return (
     <div className="flex items-center justify-between">
       {/* arrow buttons */}

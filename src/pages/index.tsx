@@ -1,9 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Output from "../components/Output";
-import BaseControls from "../components/BaseControls";
+import BaseControls from "../components/controls/BaseControls";
 import { useEffect, useState } from "react";
-import NavControls from "../components/NavControls";
+import NavControls from "../components/controls/NavControls";
 
 import calculate from "../api/eval";
 
