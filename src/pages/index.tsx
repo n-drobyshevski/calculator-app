@@ -160,8 +160,8 @@ const Home: NextPage = () => {
           updatedInvisible = history.invisible.slice(-1);
         }
 
-        console.log("upatedVisible", updatedVisible);
-        console.log("upatedInvisible", updatedInvisible);
+        console.log("updatedVisible", updatedVisible);
+        console.log("updatedInvisible", updatedInvisible);
         setHistory({
           visible: updatedVisible,
           invisible: updatedInvisible,
@@ -242,11 +242,16 @@ const Home: NextPage = () => {
         selected = currentlyFocusedItem.expression;
       }
     }
-    setOutput({ before: [...output.before, selected], after: output.after });
-    onBackClickHandler();
+    setOutput({
+      before: [...output.before, ...selected.split("")],
+      after: output.after,
+    });
+
     // reset history invisible to [] and move focus to input field (done by onBackClickHandler())
+    onBackClickHandler();
     return;
   };
+
   const onExecuteHandler = () => {
     console.log("calculate");
     const expression: string = output.before.join("") + output.after.join();
