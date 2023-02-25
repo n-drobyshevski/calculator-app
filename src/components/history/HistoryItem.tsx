@@ -19,15 +19,17 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
       className={`flex w-full p-3
      ${isSecondary ? "bg-neutral-300/40" : ""} `}
     >
-      <p
-        className={`w-full font-mono tracking-widest ${
-          focusedItem.expression && focusedItem.index === index
-            ? "bg-neutral-400/50"
-            : ""
-        }`}
-      >
-        {expression}
-      </p>
+      <div className="w-full">
+        <p
+          className={`w-fit font-mono tracking-widest ${
+            focusedItem.expression && focusedItem.index === index
+              ? "bg-neutral-400/50"
+              : ""
+          }`}
+        >
+          {expression}
+        </p>
+      </div>
       <p
         className={`font-mono tracking-widest ${
           focusedItem.result && focusedItem.index === index
